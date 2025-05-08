@@ -41,11 +41,11 @@ docker-compose up --build
 
 ### Manual Installation
 ```bash
-# Install dependencies
-pip install -r requirements.txt
+# Make the script executable
+chmod +x start_services.sh
 
 # Run services
-python main.py
+./start_services.sh
 ```
 
 ## 🎮 Usage
