@@ -1,0 +1,69 @@
+version: '3.8'
+
+services:
+  redis:
+    image: redis:latest
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    networks:
+      - face_detection_network
+
+  image_input:
+    build: .
+    command: python services/image_input/image_input_service.py
+    volumes:
+      - ./data:/app/data
+    depends_on:
+      - redis
+    networks:
+      - face_detection_network
+
+  face_landmark:
+    build: .
+    command: python services/face_landmark/face_landmark_service.py
+    depends_on:
+      - redis
+    networks:
+      - face_detection_network
+
+  age_gender:
+    build: .
+    command: python services/age_gender/age_gender_service.py
+    depends_on:
+      - redis
+    networks:
+      - face_detection_network
+
+  data_storage:
+    build: .
+    command: python services/data_storage/data_storage_service.py
+    volumes:
+      - ./storage:/app/storage
+    depends_on:
+      - redis
+    networks:
+      - face_detection_network
+
+  main:
+    build: .
+    command: python main.py
+    volumes:
+      - ./data:/app/data
+      - ./storage:/app/storage
+    depends_on:
+      - redis
+      - image_input
+      - face_landmark
+      - age_gender
+      - data_storage
+    networks:
+      - face_detection_network
+
+networks:
+  face_detection_network:
+    driver: bridge
+
+volumes:
+  redis_data: 

@@ -1,0 +1,51 @@
+syntax = "proto3";
+
+package ai;
+
+service Aggregator {
+    rpc SaveFaceAttributes (FaceResult) returns (FaceResultResponse) {}
+}
+
+message FaceResult {
+    string time = 1;
+    bytes  frame = 2; // Original image data in JPEG format
+    string image_id = 3; // Unique identifier for the original image
+    string original_filename = 4; // Original image filename
+    repeated FaceData faces = 5; // List of detected faces
+}
+
+message FaceData {
+    string face_id = 1; // Unique identifier for each face
+    bytes face_image = 2; // Cropped face image
+    BoundingBox bbox = 3; // Bounding box of the face
+    FaceLandmarks landmarks = 4;
+    AgeGenderInfo age_gender = 5;
+}
+
+message BoundingBox {
+    int32 x = 1;
+    int32 y = 2;
+    int32 width = 3;
+    int32 height = 4;
+}
+
+message FaceLandmarks {
+    repeated Point points = 1;
+}
+
+message Point {
+    int32 x = 1;
+    int32 y = 2;
+}
+
+message AgeGenderInfo {
+    int32 age = 1;
+    string gender = 2;
+    float confidence = 3;
+}
+
+message FaceResultResponse {
+    bool response = 1;
+    string message = 2;
+    repeated FaceData faces = 3;
+}
