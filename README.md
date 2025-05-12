@@ -3,13 +3,12 @@
 <div align="center">
   <img src="output/2e99c145-f75b-4015-852b-c809d6452484.png" alt="Face Analysis Result" width="600"/>
   <br>
-  <em>Sample output of face analysis with emotion and facial feature detection</em>
+  <em>Sample output of face analysis with age-gender and  facial feature detection</em>
 </div>
 
 ## 📝 Description
 This project is a microservices-based face analysis system that provides the following capabilities:
 - Face Detection
-- Emotion Recognition
 - Age and Gender Estimation
 - Facial Feature Detection
 - Result Storage and Retrieval
